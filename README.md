@@ -11,7 +11,7 @@ against.
 | --- | --- | --- |
 | [`coding-agent-custom-runtime/`](coding-agent-custom-runtime/) | A **coding agent for a model-driven application platform**, hosted on Foundry, running on the open-weight **Kimi-K2.7-Code** model (with `gpt-4.1-mini` as a baseline). It reads a Type from a platform API, writes the `.type` and `Type.py`, and tests the method in the **custom sandbox runtime** the method claims. It also covers platform credentials through a Foundry connection, team standards as versioned **Foundry skills**, and **Foundry evaluations** that read the agent's trace and compare the two models on the same tasks. | [`README.md`](coding-agent-custom-runtime/README.md) |
 | [`offline-evaluation/`](offline-evaluation/) | Batch-evaluate an agent against a question set, then turn the results into a dataset you can upload for evaluation in the Foundry portal. | [`evaluate.py`](offline-evaluation/evaluate.py) |
-| [`slide-deck/`](slide-deck/) | Slides for the evaluation session. | [`evaluation.pptx`](slide-deck/evaluation.pptx) |
+| [`slide-deck/`](slide-deck/) | Slides for the evaluation session. | [`evaluation.pptx`](slide-deck/evaluations.pptx) |
 | [`MultiAgent-AiFoundry/`](MultiAgent-AiFoundry/) | The Multi-Agent Custom Automation Engine solution accelerator on Foundry: Bicep infrastructure, backend, frontend and an MCP server. | [`src/mcp_server/README.md`](MultiAgent-AiFoundry/src/mcp_server/README.md) |
 
 ## The coding agent at a glance
