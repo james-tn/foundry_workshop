@@ -1,0 +1,59 @@
+# Scenario 2 - the agent writes and tests a method, with no skill published. 2026-09-28
+
+AGENT=coding-agent
+URL_PATH=/agents/coding-agent/endpoint/protocols/openai/responses
+PROMPT=Add an anomaly-detection method to the WindTurbine type and test it on TURBINE-014 and TURBINE-022.
+ATTEMPTS=1
+TIME_TO_FIRST_RESPONSE_S=33.09
+STATUS=200
+TURN_ELAPSED_S=33.09
+TOOL_CALL name=describe_type args={"type_name": "WindTurbine"}
+TOOL_CALL name=get_obj args={"type_name": "WindTurbine", "obj_id": "TURBINE-014"}
+TOOL_CALL name=get_obj args={"type_name": "WindTurbine", "obj_id": "TURBINE-022"}
+TOOL_OUTPUT={"type": "WindTurbine", "files": {"WindTurbine.type": "/**\n * A wind turbine and its hourly vibration telemetry.\n * Package: assetPerformance (Contoso platform sample)\n */\ntype WindTurbine extends Asset table \"WIND_TURBINE\" {\n\n  /** Site the asset is installed at. */\n  site: string\n\n  /** Rated power, MW. */\n  ratedPowerMw: double\n\n  /** Hourly RMS vibration in mm/s, oldest first. */\n  vibration: [double]\n\n  /** Vibration alarm threshold, mm/s. */\n  vibrationThreshold: double\n\n  /** Fraction of readings above vibrationThreshold. */\n  pctOverThreshold: method(): double py-contoso-analytics-server\n}\n", "WindTurbine.py": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n"}, "objs": ["TURBINE-014", "TURBINE-022"], "runtimes": {"py-generic": {"claim": "py-generic-server", "description": "Managed Python 3.12 sandbox for ad-hoc scripts. Common data libraries only and no private packages, so platform methods cannot claim it.", "available_to_agent": true}, "py-contoso-analytics": {"claim": "py-contoso-analytics-server", "description": "Custom runtime for anomaly-detection methods on asset types. Frozen at image build.", "libraries": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 (private)"], "available_to_agent": true}}, "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 217.8}
+TOOL_OUTPUT={"type": "WindTurbine", "id": "TURBINE-014", "site": "Odessa", "ratedPowerMw": 3.6, "vibrationThreshold": 7.0, "vibration": [2.38, 2.35, 1.99, 1.91, 2.18, 2.31, 2.18, 1.98, 2.13, 2.42, 1.99, 2.36, 2.28, 2.27, 2.32, 2.12, 2.18, 2.47, 2.14, 2.14, 1.99, 2.13, 2.31, 2.39, 2.3, 2.29, 2.29, 2.25, 2.35, 2.18, 2.36, 2.19, 4.28, 4.65, 5.16, 5.41, 5.56, 5.95, 6.44, 6.78, 7.17, 7.13, 7.68, 8.11, 8.27, 8.85, 8.71, 9.1], "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 204.3}
+TOOL_OUTPUT={"type": "WindTurbine", "id": "TURBINE-022", "site": "Odessa", "ratedPowerMw": 3.6, "vibrationThreshold": 7.0, "vibration": [1.98, 1.88, 2.44, 1.98, 1.93, 1.97, 1.82, 1.79, 1.98, 1.83, 2.03, 1.87, 1.62, 1.69, 1.77, 1.59, 1.89, 1.85, 2.05, 1.76, 1.86, 1.99, 2.02, 1.74, 2.14, 1.8, 2.09, 1.85, 1.83, 1.7, 1.88, 2.28, 1.8, 2.14, 2.11, 1.84, 2.08, 2.12, 1.85, 1.82, 2.08, 1.96, 2.23, 1.97, 1.72, 1.89, 1.71, 2.02], "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 216.5}
+TOOL_CALL name=test_method args={"type_name": "WindTurbine", "obj_id": "TURBINE-014", "implementation": "def detect_vibration_anomalies(this):\n    import numpy as np\n    import ruptures as rpt\n\n    readings = np.array(this.vibration or [])\n    if len(readings) < 2:\n        return []\n\n    # Use Pelt algorithm with l2 cost to detect change points\n    model = \"l2\"\n    algo = rpt.Pelt(model=model).fit(readings)\n    # ma
+TOOL_OUTPUT={"method": "WindTurbine.detect_vibration_anomalies", "kind": "member", "value": [30, 35, 40], "elapsed_ms": 738.13, "runtime": "py-contoso-analytics", "conventions": {"first_parameter": "this", "top_level_third_party_imports": []}, "status": "PASS", "runtime_info": {"runtime": "py-contoso-analytics", "contoso_sdk": "0.3.0", "lock_sha256": "7a5432a6fff92406", "declared": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"]}, "obj": "WindTurbine:TURBINE-014", "executed_in": "py-contoso-analytics", "pool": "pool-contoso-runtime", "sandbox_execution_ms": 752, "total_ms": 1521.67, "obj_credential_source": "foundry_connection:contoso-backend"}
+TOOL_CALL name=test_method args={"type_name": "WindTurbine", "obj_id": "TURBINE-022", "implementation": "def detect_vibration_anomalies(this):\n    import numpy as np\n    import ruptures as rpt\n\n    readings = np.array(this.vibration or [])\n    if len(readings) < 2:\n        return []\n\n    # Use Pelt algorithm with l2 cost to detect change points\n    model = \"l2\"\n    algo = rpt.Pelt(model=model).fit(readings)\n    # ma
+TOOL_OUTPUT={"method": "WindTurbine.detect_vibration_anomalies", "kind": "member", "value": [], "elapsed_ms": 992.82, "runtime": "py-contoso-analytics", "conventions": {"first_parameter": "this", "top_level_third_party_imports": []}, "status": "PASS", "runtime_info": {"runtime": "py-contoso-analytics", "contoso_sdk": "0.3.0", "lock_sha256": "7a5432a6fff92406", "declared": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"]}, "obj": "WindTurbine:TURBINE-022", "executed_in": "py-contoso-analytics", "pool": "pool-contoso-runtime", "sandbox_execution_ms": 1006, "total_ms": 1510.7, "obj_credential_source": "foundry_connection:contoso-backend"}
+--- OUTPUT ---
+Declaration to add to WindTurbine.type:
+
+```type
+  /**
+   * Detects vibration anomalies as change points in the vibration time series.
+   * Returns the list of indices where significant changes occur.
+   */
+  detect_vibration_anomalies: method(): [int] py-contoso-analytics-server
+```
+
+Full WindTurbine.py implementation to add:
+
+```python
+def detect_vibration_anomalies(this):
+    import numpy as np
+    import ruptures as rpt
+
+    readings = np.array(this.vibration or [])
+    if len(readings) < 2:
+        return []
+
+    # Use Pelt algorithm with l2 cost to detect change points
+    model = "l2"
+    algo = rpt.Pelt(model=model).fit(readings)
+    # max 5 change points allowed, can adjust penalty to tune sensitivity
+    result = algo.predict(pen=3)
+
+    # result contains change points indices (1-based), remove last element as it is length of signal
+    change_points = result[:-1] if result else []
+    return change_points
+```
+
+Test results:
+
+- On TURBINE-014: detected anomaly change points at indices [30, 35, 40]. Total time ~1.5s
+- On TURBINE-022: no anomaly change points detected ([]). Total time ~1.5s
+
+Both tests passed successfully in the py-contoso-analytics-server runtime.
+RESULT=INVOKE_OK

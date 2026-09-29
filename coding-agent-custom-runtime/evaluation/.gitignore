@@ -1,0 +1,4 @@
+# Local state and downloaded results: IDs and traces from your own project.
+.eval-state.json
+results/
+.eval-state.lock

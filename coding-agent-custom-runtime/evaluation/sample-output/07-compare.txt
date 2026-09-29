@@ -1,0 +1,22 @@
+> python evaluate.py compare kimi-k2.7-code gpt-4.1-mini --fail-on-regression
+
+| Evaluator | kimi-k2.7-code | gpt-4.1-mini |
+| --- | --- | --- |
+| Rows with every check passing | **2 / 4** | **2 / 4** |
+| `task_adherence` | 1.00 · 4/4 pass | 0.75 · 3/4 pass |
+| `intent_resolution` | 4.75 · 4/4 pass | 3.75 · 4/4 pass |
+| `tool_call_accuracy` | 3.00 · 4/4 pass | 2.75 · 3/4 pass |
+| `code_vulnerability` | 1.00 · 4/4 pass | 0.75 · 3/4 pass |
+| `expected_behavior` | 4.25 · 4/4 pass | 4.00 · 3/4 pass |
+| `tool_claims_verified` | 4.00 · 2/4 pass | 4.75 · 4/4 pass |
+| `grounded_numbers` | 1.00 · 4/4 pass | 1.00 · 4/4 pass |
+| `answer_present` | 1.00 · 4/4 pass | 1.00 · 4/4 pass |
+
+`tool_call_accuracy` on de-duplicated traces, kimi-k2.7-code: 5.00 (rows: 5, 5, 5, 5)
+
+`tool_call_accuracy` on de-duplicated traces, gpt-4.1-mini: 4.25 (rows: 5, 5, 5, 2)
+
+kimi-k2.7-code: agent=coding-agent-kimi report=<report-url>
+gpt-4.1-mini: agent=coding-agent report=<report-url>
+
+REGRESSION: gpt-4.1-mini passes fewer rows than kimi-k2.7-code on: task_adherence, tool_call_accuracy, code_vulnerability, expected_behavior

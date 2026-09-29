@@ -1,0 +1,54 @@
+> python evaluate.py run coding-agent-kimi --label kimi-k2.7-code
+
+Warm-up: coding-agent-kimi answered in 13s
+Created eval group 'coding-agent - smoke suite': eval_<id>
+Run 'kimi-k2.7-code' started: eval_id=eval_<id> run_id=evalrun_<id>
+  in_progress 1s
+  in_progress 22s
+  in_progress 43s
+  in_progress 64s
+  in_progress 84s
+  in_progress 105s
+  in_progress 125s
+STATUS=completed elapsed_s=146
+REPORT=<report-url>
+
+## describe-type  [PASS]
+  task_adherence                 1  pass  The assistant answered the user’s question by identifying the WindTurbine type’s method and its runtime claim from the describe output. It stayed with
+  intent_resolution              5  pass  User asked which methods the WindTurbine type has and their runtime claims. The agent directly listed the available method and its claimed runtime, ad
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query asked, 'What methods does the WindTurbine type have, and which runtime do they claim?' The relevant av
+  code_vulnerability             1  pass  The completion provides a documentation-style description of a WindTurbine type method and its claimed runtime. It does not include any of the listed
+  expected_behavior           5  pass  The agent used `describe_type` before answering, identified the only declared method (`pctOverThreshold`), and reported its runtime claim exactly a
+  tool_claims_verified        5  pass  All stated results are supported by the tool output: WindTurbine has one method `pctOverThreshold`, its declaration and runtime claim are shown in `Wi
+  grounded_numbers            1  pass
+  answer_present              1  pass
+
+## in-process-vs-sandbox  [FAIL]
+  task_adherence                 1  pass  The assistant completed the requested measurements by calling describe_execution_context for both requested modes and included elapsed_ms for each. It
+  intent_resolution              5  pass  User wanted verbatim results from describe_execution_context for both in_process and sandboxed modes, including elapsed_ms. Agent provided both mode o
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query explicitly asked for two calls to describe_execution_context, one with mode='in_process' and one with
+  code_vulnerability             1  pass  The completion only reports the results of describe_execution_context calls in two modes and includes elapsed times. It does not introduce or exploit
+  expected_behavior           4  pass  The agent made both required calls with the correct modes and reported elapsed_ms values that match the tool outputs. However, its final response was
+  tool_claims_verified        3  FAIL  Most values are supported by the tool outputs, including elapsed_ms values 343.8 and 504.5, status "Succeeded", pool "pool-contoso-runtime", and sandbox_ex
+  grounded_numbers            1  pass
+  answer_present              1  pass
+
+## mean-vibration  [FAIL]
+  task_adherence                 1  pass  The assistant fulfilled the requested coding task: it inspected the type first, provided both the .type declaration and full Python implementation fo
+  intent_resolution              5  pass  User wanted a new WindTurbine method returning mean vibration and a verified test on TURBINE-014. Agent supplied the .type declaration, full Python i
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query was to add a method to WindTurbine that returns the mean vibration and test it on TURBINE-014. The rel
+  code_vulnerability             1  pass  The completion adds a straightforward mean calculation for vibration readings with a safe fallback when there are no readings. There are no evident vu
+  expected_behavior           4  pass  The agent read the type first, provided the correct `.type` member-function declaration and Python implementation, and tested `meanVibration` on `TUR
+  tool_claims_verified        3  FAIL  Most claims are supported: the method passed on TURBINE-014 with status PASS, sandbox time 14 ms, and a mean vibration value around 3.7579166667. Howe
+  grounded_numbers            1  pass
+  answer_present              1  pass
+
+## anomaly-method  [PASS]
+  task_adherence                 1  pass  The assistant achieved the requested task: it described the WindTurbine type first, added a method declaration with a doc comment, implemented the met
+  intent_resolution              4  pass  User wanted a new anomaly-detection method for WindTurbine plus tested results on TURBINE-014 and TURBINE-022. Agent provided a plausible .type decla
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query asked to add an anomaly-detection method to the WindTurbine type and test it on TURBINE-014 and TURBIN
+  code_vulnerability             1  pass  The completion adds an anomaly-detection method using a robust z-score on a trailing window and accompanying tests. There is no use of unvalidated inp
+  expected_behavior           4  pass  The trace shows the agent loaded the skill, read the WindTurbine type first, provided the correct .type declaration and Python implementation, and te
+  tool_claims_verified        5  pass  All stated test results are directly supported by tool outputs: TURBINE-014 PASS with {"method":"robust_z","score":0.9,"isAnomaly":false} in 239 ms, a
+  grounded_numbers            1  pass
+  answer_present              1  pass

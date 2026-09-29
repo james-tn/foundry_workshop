@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "contoso_sdk"
+version = "0.3.0"
+description = "Offline stand-in for the platform Type System, baked into the py-contoso-analytics runtime so generated Type implementations can be executed and checked in a sandbox."
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["contoso_sdk"]

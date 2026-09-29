@@ -1,0 +1,23 @@
+> python evaluate.py rescore gpt-4.1-mini
+
+describe-type: 6 trace items -> 3 after de-duplication
+  in-process-vs-sandbox: 12 trace items -> 5 after de-duplication
+  mean-vibration: 11 trace items -> 5 after de-duplication
+  anomaly-method: 29 trace items -> 15 after de-duplication
+Run 'gpt-4.1-mini-rescored' started: eval_id=eval_<id> run_id=evalrun_<id>
+  in_progress 1s
+  in_progress 21s
+STATUS=completed elapsed_s=42
+REPORT=<report-url>
+
+## describe-type  [PASS]
+  tool_call_accuracy             5  pass  Let's think step by step: The user's last query asked what methods the WindTurbine type has and which runtime they claim. The relevant available tool
+
+## in-process-vs-sandbox  [PASS]
+  tool_call_accuracy             5  pass  Let's think step by step: The user's last query explicitly asked for two calls to describe_execution_context, one with mode='in_process' and one with
+
+## mean-vibration  [PASS]
+  tool_call_accuracy             5  pass  Let's think step by step: The user's last query was to add a method to WindTurbine that returns the mean vibration and test it on TURBINE-014. The ava
+
+## anomaly-method  [FAIL]
+  tool_call_accuracy             2  FAIL  Let's think step by step: The user's last query was to add an anomaly-detection method to the WindTurbine type and test it on TURBINE-014 and TURBINE-

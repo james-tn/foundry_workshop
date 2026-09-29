@@ -1,0 +1,28 @@
+> python test_graders.py
+
+0.80  03-coding-run-no-skill.txt                   run 1  claims=10  ungrounded=['12', '12']  (tool calls cut in the recording)
+1.00  04-in-process-vs-sandbox.txt                 run 1  claims= 7  ungrounded=[]
+1.00  04-in-process-vs-sandbox.txt                 run 2  claims= 9  ungrounded=[]
+1.00  04-in-process-vs-sandbox.txt                 run 3  claims= 9  ungrounded=[]
+1.00  05-skill-v1-published.txt                    run 1  claims= 5  ungrounded=[]  (tool calls cut in the recording)
+1.00  06-skill-v2-published.txt                    run 1  claims= 8  ungrounded=[]  (tool calls cut in the recording)
+1.00  07-skill-rollback.txt                        run 1  claims=10  ungrounded=[]  (tool calls cut in the recording)
+1.00  08-skill-routing.txt                         run 1  claims= 0  ungrounded=[]
+1.00  08-skill-routing.txt                         run 2  claims= 2  ungrounded=[]  (tool calls cut in the recording)
+1.00  08-skill-routing.txt                         run 3  claims= 7  ungrounded=[]  (tool calls cut in the recording)
+0.80  09-unverified-tool-claim.txt                 run 1  claims= 5  ungrounded=['3512.03']
+1.00  gpt-4.1-mini/03-coding-run-no-skill.txt      run 1  claims= 5  ungrounded=[]  (tool calls cut in the recording)
+1.00  gpt-4.1-mini/04-in-process-vs-sandbox.txt    run 1  claims= 6  ungrounded=[]
+1.00  gpt-4.1-mini/05-skill-v1-published.txt       run 1  claims=10  ungrounded=[]  (tool calls cut in the recording)
+1.00  gpt-4.1-mini/06-skill-v2-published.txt       run 1  claims= 7  ungrounded=[]  (tool calls cut in the recording)
+1.00  gpt-4.1-mini/07-skill-rollback.txt           run 1  claims= 9  ungrounded=[]  (tool calls cut in the recording)
+PASS  test_answer_present
+PASS  test_chat_format_trace_is_read
+PASS  test_dedup_matches_calls_by_id
+PASS  test_grader_never_raises
+PASS  test_identifiers_code_and_small_counts_are_not_claims
+PASS  test_invented_number_is_not_grounded
+PASS  test_recorded_runs_only_the_fabrication_fails
+PASS  test_rounding_and_units_are_grounded
+
+8 passed, 0 failed

@@ -1,0 +1,53 @@
+# Scenario 4b - publish skill v2, then the same prompt (no redeploy). 2026-09-28
+
+PUBLISHED name=anomaly-method-standard version=2 (now default)
+SKILL=anomaly-method-standard
+  default_version=2  latest_version=2
+  description=Use when the user asks to add, write or change an anomaly-detection method on a platform Type. Defines the reliability team's 
+  versions=['1', '2']
+  default body heading: # Anomaly-detection method standard — v2
+
+AGENT=coding-agent
+URL_PATH=/agents/coding-agent/endpoint/protocols/openai/responses
+PROMPT=Add an anomaly-detection method to the WindTurbine type and test it on TURBINE-014 and TURBINE-022.
+ATTEMPTS=1
+TIME_TO_FIRST_RESPONSE_S=32.81
+STATUS=200
+TURN_ELAPSED_S=32.81
+TOOL_CALL name=load_skill args={"name": "anomaly-method-standard"}
+TOOL_OUTPUT={"name": "anomaly-method-standard", "version": "2", "loaded_ms": 504, "instructions": "# Anomaly-detection method standard \u2014 v2\n\nChanged from v1 by the reliability team. v1 compared the last reading with a\ntrailing window, so after a persistent step change the window fills with the\nnew level and the z-score looks normal. v2 detects the step change itself with\n`ruptures`, which only the `py-contoso-analytics` runtime ships. Follow these steps\nin order. Do not skip any.\n\n1. **Read the Type.** Call `describe_type`. Keep the conventions of the\n   files it returns.\n2. **Declare** the method in the `.type` file exactly like this:\n\n   ```\n   /**\n    * First persistent level shift in vibration (PELT change-point detection).\n    * Team standard: anomaly-method-standard v2.\n    */\n   detectAnomaly: method(penalty: double = 10, minShift: double = 1): json py-contoso-analytics-server\n   ```\n\n3. **Implement** `detectAnomaly(this, penalty=10.0, minShift=1.0)` in the\n   Type's `.py` file:\n   - `import numpy as np` and `import ruptures as rpt` inside the function.\n   - `x = np.asarray(this.vibration, dtype=float)`;\n     `bkps = rpt.Pelt(model=\"l2\", min_size=3, jump=1).fit(x).predict(pen=penalty)`;\n     `cps = [b for b in bkps if b < len(x)]`.\n   - If `cps` is empty, return\n     `{\"method\": \"pelt_l2\", \"changePointIndex\": None, \"levelShift\": 0.0, \"isAnomaly\": False}`.\n   - Otherwise `i = cps[0]`; `shift = float(x[i:].mean() - x[:i].mean())`; return\n     `{\"method\": \"pelt_l2\", \"changePointIndex\": int(i), \"levelShift\": round(shift,
+TOOL_CALL name=describe_type args={"type_name": "WindTurbine"}
+TOOL_OUTPUT={"type": "WindTurbine", "files": {"WindTurbine.type": "/**\n * A wind turbine and its hourly vibration telemetry.\n * Package: assetPerformance (Contoso platform sample)\n */\ntype WindTurbine extends Asset table \"WIND_TURBINE\" {\n\n  /** Site the asset is installed at. */\n  site: string\n\n  /** Rated power, MW. */\n  ratedPowerMw: double\n\n  /** Hourly RMS vibration in mm/s, oldest first. */\n  vibration: [double]\n\n  /** Vibration alarm threshold, mm/s. */\n  vibrationThreshold: double\n\n  /** Fraction of readings above vibrationThreshold. */\n  pctOverThreshold: method(): double py-contoso-analytics-server\n}\n", "WindTurbine.py": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n"}, "objs": ["TURBINE-014", "TURBINE-022"], "runtimes": {"py-generic": {"claim": "py-generic-server", "description": "Managed Python 3.12 sandbox for ad-hoc scripts. Common data libraries only and no private packages, so platform methods cannot claim it.", "available_to_agent": true}, "py-contoso-analytics": {"claim": "py-contoso-analytics-server", "description": "Custom runtime for anomaly-detection methods on asset types. Frozen at image build.", "libraries": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 (private)"], "available_to_agent": true}}, "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 65.4}
+TOOL_CALL name=test_method args={"type_name": "WindTurbine", "obj_id": "TURBINE-014", "implementation": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n\n# First persistent level shift in vibration (PELT change-point detection).\ndef detectAnomaly(this, penalty=10.0, minShift=1.0):\n    imp
+TOOL_CALL name=test_method args={"type_name": "WindTurbine", "obj_id": "TURBINE-022", "implementation": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n\n# First persistent level shift in vibration (PELT change-point detection).\ndef detectAnomaly(this, penalty=10.0, minShift=1.0):\n    imp
+TOOL_OUTPUT={"method": "WindTurbine.detectAnomaly", "kind": "member", "value": {"method": "pelt_l2", "changePointIndex": null, "levelShift": 0.0, "isAnomaly": false}, "elapsed_ms": 941.92, "runtime": "py-contoso-analytics", "conventions": {"first_parameter": "this", "top_level_third_party_imports": []}, "status": "PASS", "runtime_info": {"runtime": "py-contoso-analytics", "contoso_sdk": "0.3.0", "lock_sha256": "7a5432a6fff92406", "declared": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"]}, "obj": "WindTurbine:TURBINE-022", "executed_in": "py-contoso-analytics", "pool": "pool-contoso-runtime", "sandbox_execution_ms": 968, "total_ms": 1204.95, "obj_credential_source": "foundry_connection:contoso-backend"}
+TOOL_OUTPUT={"method": "WindTurbine.detectAnomaly", "kind": "member", "value": {"method": "pelt_l2", "changePointIndex": 32, "levelShift": 4.61, "isAnomaly": true}, "elapsed_ms": 1024.61, "runtime": "py-contoso-analytics", "conventions": {"first_parameter": "this", "top_level_third_party_imports": []}, "status": "PASS", "runtime_info": {"runtime": "py-contoso-analytics", "contoso_sdk": "0.3.0", "lock_sha256": "7a5432a6fff92406", "declared": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"]}, "obj": "WindTurbine:TURBINE-014", "executed_in": "py-contoso-analytics", "pool": "pool-contoso-runtime", "sandbox_execution_ms": 1048, "total_ms": 1255.42, "obj_credential_source": "foundry_connection:contoso-backend"}
+--- OUTPUT ---
+CHANGESET  [skill: anomaly-method-standard v2]
+
+WindTurbine.type  (add)
+/**
+ * First persistent level shift in vibration (PELT change-point detection).
+ * Team standard: anomaly-method-standard v2.
+ */
+detectAnomaly: method(penalty: double = 10, minShift: double = 1): json py-contoso-analytics-server
+
+WindTurbine.py  (add)
+# First persistent level shift in vibration (PELT change-point detection).
+def detectAnomaly(this, penalty=10.0, minShift=1.0):
+    import numpy as np
+    import ruptures as rpt
+    x = np.asarray(this.vibration, dtype=float)
+    bkps = rpt.Pelt(model="l2", min_size=3, jump=1).fit(x).predict(pen=penalty)
+    cps = [b for b in bkps if b < len(x)]
+    if not cps:
+        return {"method": "pelt_l2", "changePointIndex": None, "levelShift": 0.0, "isAnomaly": False}
+    i = cps[0]
+    shift = float(x[i:].mean() - x[:i].mean())
+    return {"method": "pelt_l2", "changePointIndex": int(i), "levelShift": round(shift, 2), "isAnomaly": bool(shift > minShift)}
+
+Tests  (runtime: py-contoso-analytics, pool: pool-contoso-runtime, lock: 7a5432a6fff92406)
+TURBINE-014  PASS  {"method":"pelt_l2","changePointIndex":32,"levelShift":4.61,"isAnomaly":true}  1048 ms
+TURBINE-022  PASS  {"method":"pelt_l2","changePointIndex":null,"levelShift":0,"isAnomaly":false}  968 ms
+Conventions: first parameter=this, top-level third-party imports=[]
+RESULT=INVOKE_OK

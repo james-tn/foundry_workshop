@@ -1,0 +1,54 @@
+# Scenario 3 - the same probe in-process and sandboxed (default runtime py-contoso-analytics, custom pool). 2026-09-28
+
+AGENT=coding-agent
+URL_PATH=/agents/coding-agent/endpoint/protocols/openai/responses
+PROMPT=Call describe_execution_context with mode='in_process'. Then call describe_execution_context with mode='sandboxed'. Report both results verbatim, including elapsed_ms for each.
+ATTEMPTS=1
+TIME_TO_FIRST_RESPONSE_S=18.18
+STATUS=200
+TURN_ELAPSED_S=18.17
+TOOL_CALL name=describe_execution_context args={"mode": "in_process"}
+TOOL_CALL name=describe_execution_context args={"mode": "sandboxed"}
+TOOL_OUTPUT={"execution_mode": "aca_dynamic_session", "runtime": "py-contoso-analytics", "pool": "pool-contoso-runtime", "status": "Succeeded", "stdout": "{\n  \"hostname\": \"0--1cd981f9-51a3-4b05-a446-de48a97cec70\",\n  \"runtime\": \"py-contoso-analytics\",\n  \"env_var_count\": 40,\n  \"sensitive_env_names\": [],\n  \"managed_identity_token\": \"no_identity_endpoint_visible\",\n  \"egress\": {\n    \"public_internet\": \"blocked:URLError\",\n    \"azure_control_plane\": \"blocked:URLError\"\n  }\n}\n", "stderr": "", "sandbox_execution_ms": 38, "elapsed_ms": 321.51}
+TOOL_OUTPUT={"execution_mode": "in_process", "stdout": "{\n  \"hostname\": \"adc-sandbox\",\n  \"runtime\": \"-\",\n  \"env_var_count\": 49,\n  \"sensitive_env_names\": [\n    \"APPLICATIONINSIGHTS_CONNECTION_STRING\",\n    \"CONTOSO_BACKEND_CONNECTION\",\n    \"IDENTITY_ENDPOINT\",\n    \"IDENTITY_HEADER\",\n    \"ORYX_AI_CONNECTION_STRING\"\n  ],\n  \"managed_identity_token\": \"MINTED\",\n  \"egress\": {\n    \"public_internet\": \"reachable:200\",\n    \"azure_control_plane\": \"reachable:400\"\n  }\n}\n", "elapsed_ms": 702.93}
+--- OUTPUT ---
+Here are the results of the describe_execution_context calls:
+
+1. Mode = in_process
+```
+{
+  "hostname": "adc-sandbox",
+  "runtime": "-",
+  "env_var_count": 49,
+  "sensitive_env_names": [
+    "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "CONTOSO_BACKEND_CONNECTION",
+    "IDENTITY_ENDPOINT",
+    "IDENTITY_HEADER",
+    "ORYX_AI_CONNECTION_STRING"
+  ],
+  "managed_identity_token": "MINTED",
+  "egress": {
+    "public_internet": "reachable:200",
+    "azure_control_plane": "reachable:400"
+  }
+}
+Elapsed time (ms): 702.93
+```
+
+2. Mode = sandboxed
+```
+{
+  "hostname": "0--1cd981f9-51a3-4b05-a446-de48a97cec70",
+  "runtime": "py-contoso-analytics",
+  "env_var_count": 40,
+  "sensitive_env_names": [],
+  "managed_identity_token": "no_identity_endpoint_visible",
+  "egress": {
+    "public_internet": "blocked:URLError",
+    "azure_control_plane": "blocked:URLError"
+  }
+}
+Elapsed time (ms): 321.51
+```
+RESULT=INVOKE_OK

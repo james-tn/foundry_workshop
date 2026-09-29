@@ -1,0 +1,14 @@
+{
+  "name": "py-contoso-analytics",
+  "description": "Server-side Python runtime for anomaly-detection methods on asset types. Pinned, frozen at image build, and the only runtime that ships the private contoso_sdk package.",
+  "languageVersion": "3.12",
+  "repositories": ["pypi", "file:///opt/contoso/wheels"],
+  "libraries": [
+    "pip numpy==1.26.4",
+    "pip pandas==2.2.3",
+    "pip scipy==1.14.1",
+    "pip scikit-learn==1.5.2",
+    "pip ruptures==1.1.9",
+    "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"
+  ]
+}

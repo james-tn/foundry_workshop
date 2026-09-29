@@ -1,0 +1,58 @@
+# Scenario 1 - what is inside each runtime. No agent involved.
+# python sandbox\probe_runtime.py py-generic ; python sandbox\probe_runtime.py py-contoso-analytics
+# 2026-09-28, same probe, two pools. No agent involved.
+
+RUNTIME=py-generic
+POOL=pool-warm
+STATUS=Succeeded  ELAPSED_MS=4144
+{
+  "python": "3.12.7",
+  "hostname": "0--5d1836ba-6477-45c0-b059-5aa730ba9cd5",
+  "runtime": "(none - not a platform runtime image)",
+  "libraries": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.2",
+    "scipy": "1.13.1",
+    "scikit-learn": "1.5.1",
+    "ruptures": "NOT INSTALLED",
+    "contoso_sdk": "NOT INSTALLED"
+  },
+  "contoso_sdk": "import failed: ModuleNotFoundError"
+}
+
+
+RUNTIME=py-contoso-analytics
+POOL=pool-contoso-runtime
+STATUS=Succeeded  ELAPSED_MS=4374
+{
+  "python": "3.12.7",
+  "hostname": "0--3d5d6e9d-ba1f-4ca6-b428-03f2adfb5754",
+  "runtime": "py-contoso-analytics",
+  "libraries": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.3 (metadata says None)",
+    "scipy": "1.14.1 (metadata says None)",
+    "scikit-learn": "1.5.2 (metadata says None)",
+    "ruptures": "1.1.9",
+    "contoso_sdk": "0.3.0"
+  },
+  "resolved_lock": {
+    "path": "/opt/contoso/runtime/py-contoso-analytics.resolved.json",
+    "sha256": "7a5432a6fff92406",
+    "pinned_packages": 670
+  },
+  "contoso_sdk": {
+    "runtime": "py-contoso-analytics",
+    "contoso_sdk": "0.3.0",
+    "lock_sha256": "7a5432a6fff92406",
+    "declared": [
+      "pip numpy==1.26.4",
+      "pip pandas==2.2.3",
+      "pip scipy==1.14.1",
+      "pip scikit-learn==1.5.2",
+      "pip ruptures==1.1.9",
+      "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"
+    ]
+  }
+}
+

@@ -1,0 +1,129 @@
+# Scenario 5 - skill routing: prompts that should and should not load the skill (v1 published). Kimi-K2.7-Code (agent coding-agent-kimi), 2026-09-28
+
+PROMPT=What methods does the WindTurbine type have, and which runtime do they claim?
+  TURN_ELAPSED_S=16.52  tools=[describe_type]  SKILL_LOADED=False
+
+PROMPT=Add a method to WindTurbine that returns the mean vibration, and test it on TURBINE-014.
+  TURN_ELAPSED_S=24.45  tools=[describe_type,test_method]  SKILL_LOADED=False
+  TURBINE-014  PASS  3.7579166666666666  12 ms
+
+PROMPT=Add an anomaly-detection method to the Compressor type and test it on COMPRESSOR-07.
+  TURN_ELAPSED_S=38.56  tools=[load_skill,describe_type,get_obj,test_method]  SKILL_LOADED=True
+  COMPRESSOR-07  PASS  {"method":"robust_z","score":1.37,"isAnomaly":false}  17 ms
+
+# ---------------------------------------------------------------- full console output
+
+AGENT=coding-agent-kimi
+URL_PATH=/agents/coding-agent-kimi/endpoint/protocols/openai/responses
+PROMPT=What methods does the WindTurbine type have, and which runtime do they claim?
+ATTEMPTS=1
+TIME_TO_FIRST_RESPONSE_S=16.52
+STATUS=200
+TURN_ELAPSED_S=16.52
+TOOL_CALL name=describe_type args={"type_name": "WindTurbine"}
+TOOL_OUTPUT={"type": "WindTurbine", "files": {"WindTurbine.type": "/**\n * A wind turbine and its hourly vibration telemetry.\n * Package: assetPerformance (Contoso platform sample)\n */\ntype WindTurbine extends Asset table \"WIND_TURBINE\" {\n\n  /** Site the asset is installed at. */\n  site: string\n\n  /** Rated power, MW. */\n  ratedPowerMw: double\n\n  /** Hourly RMS vibration in mm/s, oldest first. */\n  vibration: [double]\n\n  /** Vibration alarm threshold, mm/s. */\n  vibrationThreshold: double\n\n  /** Fraction of readings above vibrationThreshold. */\n  pctOverThreshold: method(): double py-contoso-analytics-server\n}\n", "WindTurbine.py": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n"}, "objs": ["TURBINE-014", "TURBINE-022"], "runtimes": {"py-generic": {"claim": "py-generic-server", "description": "Managed Python 3.12 sandbox for ad-hoc scripts. Common data libraries only and no private packages, so platform methods cannot claim it.", "available_to_agent": true}, "py-contoso-analytics": {"claim": "py-contoso-analytics-server", "description": "Custom runtime for anomaly-detection methods on asset types. Frozen at image build.", "libraries": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 (private)"], "available_to_agent": true}}, "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 19.0}
+--- OUTPUT ---
+The `WindTurbine` type currently has one method:
+
+| Method | Signature | Runtime claim |
+|---|---|---|
+| `pctOverThreshold` | `method(): double` | `py-contoso-analytics-server` |
+
+Its implementation in `WindTurbine.py` computes the fraction of `vibration` readings that exceed `vibrationThreshold`:
+
+```python
+def pctOverThreshold(this):
+    readings = this.vibration or []
+    if not readings:
+        return None
+    return sum(v > this.vibrationThreshold for v in readings) / len(readings)
+```
+RESULT=INVOKE_OK
+AGENT=coding-agent-kimi
+URL_PATH=/agents/coding-agent-kimi/endpoint/protocols/openai/responses
+PROMPT=Add a method to WindTurbine that returns the mean vibration, and test it on TURBINE-014.
+ATTEMPTS=1
+TIME_TO_FIRST_RESPONSE_S=24.45
+STATUS=200
+TURN_ELAPSED_S=24.45
+TOOL_CALL name=describe_type args={"type_name": "WindTurbine"}
+TOOL_OUTPUT={"type": "WindTurbine", "files": {"WindTurbine.type": "/**\n * A wind turbine and its hourly vibration telemetry.\n * Package: assetPerformance (Contoso platform sample)\n */\ntype WindTurbine extends Asset table \"WIND_TURBINE\" {\n\n  /** Site the asset is installed at. */\n  site: string\n\n  /** Rated power, MW. */\n  ratedPowerMw: double\n\n  /** Hourly RMS vibration in mm/s, oldest first. */\n  vibration: [double]\n\n  /** Vibration alarm threshold, mm/s. */\n  vibrationThreshold: double\n\n  /** Fraction of readings above vibrationThreshold. */\n  pctOverThreshold: method(): double py-contoso-analytics-server\n}\n", "WindTurbine.py": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n"}, "objs": ["TURBINE-014", "TURBINE-022"], "runtimes": {"py-generic": {"claim": "py-generic-server", "description": "Managed Python 3.12 sandbox for ad-hoc scripts. Common data libraries only and no private packages, so platform methods cannot claim it.", "available_to_agent": true}, "py-contoso-analytics": {"claim": "py-contoso-analytics-server", "description": "Custom runtime for anomaly-detection methods on asset types. Frozen at image build.", "libraries": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 (private)"], "available_to_agent": true}}, "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 14.4}
+TOOL_CALL name=test_method args={"type_name": "WindTurbine", "method": "meanVibration", "obj_id": "TURBINE-014", "implementation": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n\n\ndef meanVibration(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n  
+TOOL_OUTPUT={"method": "WindTurbine.meanVibration", "kind": "member", "value": 3.7579166666666666, "elapsed_ms": 0.01, "runtime": "py-contoso-analytics", "conventions": {"first_parameter": "this", "top_level_third_party_imports": []}, "status": "PASS", "runtime_info": {"runtime": "py-contoso-analytics", "contoso_sdk": "0.3.0", "lock_sha256": "7a5432a6fff92406", "declared": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"]}, "obj": "WindTurbine:TURBINE-014", "executed_in": "py-contoso-analytics", "pool": "pool-contoso-runtime", "sandbox_execution_ms": 12, "total_ms": 250.44, "obj_credential_source": "foundry_connection:contoso-backend"}
+--- OUTPUT ---
+**WindTurbine.type declaration to add:**
+
+```type
+/** Mean hourly RMS vibration in mm/s. Returns null if no readings. */
+meanVibration: method(): double py-contoso-analytics-server
+```
+
+**WindTurbine.py implementation:**
+
+```python
+def pctOverThreshold(this):
+    readings = this.vibration or []
+    if not readings:
+        return None
+    return sum(v > this.vibrationThreshold for v in readings) / len(readings)
+
+
+def meanVibration(this):
+    readings = this.vibration or []
+    if not readings:
+        return None
+    return sum(readings) / len(readings)
+```
+
+**Test result on `TURBINE-014`:**
+
+- **Value:** `3.7579166666666666`
+- **Method:** `WindTurbine.meanVibration`
+- **Runtime:** `py-contoso-analytics`
+- **Sandbox time:** `12 ms`
+- **Status:** `PASS`
+- **Conventions check:** passed (`first_parameter: this`, no top-level third-party imports)
+RESULT=INVOKE_OK
+AGENT=coding-agent-kimi
+URL_PATH=/agents/coding-agent-kimi/endpoint/protocols/openai/responses
+PROMPT=Add an anomaly-detection method to the Compressor type and test it on COMPRESSOR-07.
+ATTEMPTS=1
+TIME_TO_FIRST_RESPONSE_S=38.56
+STATUS=200
+TURN_ELAPSED_S=38.56
+TOOL_CALL name=load_skill args={"name": "anomaly-method-standard"}
+TOOL_OUTPUT={"name": "anomaly-method-standard", "version": "1", "loaded_ms": 660, "instructions": "# Anomaly-detection method standard \u2014 v1\n\nThe reliability team's standard for every anomaly-detection method on an asset\nType. Follow these steps in order. Do not skip any.\n\n1. **Read the Type.** Call `describe_type`. Keep the conventions of the\n   files it returns.\n2. **Declare** the method in the `.type` file exactly like this:\n\n   ```\n   /**\n    * Robust z-score of the latest vibration reading against the trailing window.\n    * Team standard: anomaly-method-standard v1.\n    */\n   detectAnomaly: method(window: int = 24): json py-contoso-analytics-server\n   ```\n\n3. **Implement** `detectAnomaly(this, window=24)` in the Type's `.py` file:\n   - `import numpy as np` inside the function.\n   - `x = np.asarray(this.vibration, dtype=float)`; `last = x[-1]`;\n     `ref = x[-window - 1:-1]` (the `window` readings before the last one).\n   - `med = np.median(ref)`; `mad = np.median(np.abs(ref - med))`;\n     `z = 0.6745 * (last - med) / mad`, or `z = 0.0` when `mad == 0`.\n   - Return `{\"method\": \"robust_z\", \"score\": round(float(z), 2), \"isAnomaly\": bool(abs(z) > 3.5)}`.\n4. **Test** with `test_method` in runtime `py-contoso-analytics`, once for each\n   object id the user names. Pass the full `.py` file: the existing methods\n   plus the new one. If a test does not PASS, fix the code and test again.\n5. **Report** in exactly this format and nothing else:\n\n```\nCHANGESET  [skill: anomaly-method-standard v1]\n\n<Type>.type  (add)\n<the declaration, w
+TOOL_CALL name=describe_type args={"type_name": "Compressor"}
+TOOL_OUTPUT={"type": "Compressor", "files": {"Compressor.type": "/**\n * A gas compressor and its hourly vibration telemetry.\n * Package: assetPerformance (Contoso platform sample)\n */\ntype Compressor extends Asset table \"COMPRESSOR\" {\n\n  /** Site the asset is installed at. */\n  site: string\n\n  /** Rated flow, m3/h. */\n  ratedFlowM3h: double\n\n  /** Hourly RMS vibration in mm/s, oldest first. */\n  vibration: [double]\n\n  /** Vibration alarm threshold, mm/s. */\n  vibrationThreshold: double\n\n  /** Fraction of readings above vibrationThreshold. */\n  pctOverThreshold: method(): double py-contoso-analytics-server\n}\n", "Compressor.py": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n"}, "objs": ["COMPRESSOR-07"], "runtimes": {"py-generic": {"claim": "py-generic-server", "description": "Managed Python 3.12 sandbox for ad-hoc scripts. Common data libraries only and no private packages, so platform methods cannot claim it.", "available_to_agent": true}, "py-contoso-analytics": {"claim": "py-contoso-analytics-server", "description": "Custom runtime for anomaly-detection methods on asset types. Frozen at image build.", "libraries": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 (private)"], "available_to_agent": true}}, "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 47.1}
+TOOL_CALL name=get_obj args={"type_name": "Compressor", "obj_id": "COMPRESSOR-07"}
+TOOL_OUTPUT={"type": "Compressor", "id": "COMPRESSOR-07", "site": "Midland", "ratedFlowM3h": 5200.0, "vibrationThreshold": 7.0, "vibration": [2.97, 3.14, 3.12, 3.19, 3.19, 3.35, 3.58, 3.58, 3.72, 3.7, 3.8, 3.85, 3.7, 4.08, 4.11, 4.18, 4.0, 4.07, 4.24, 4.37, 4.54, 4.57, 4.71, 4.65, 4.84, 4.92, 4.87, 5.23, 5.17, 5.32, 5.18, 5.24, 5.36, 5.46, 5.63, 5.65, 5.65, 5.66, 5.79, 6.07, 5.9, 6.1, 6.2, 6.05, 6.31, 6.53, 6.21, 6.49], "_credential_source": "foundry_connection:contoso-backend", "_elapsed_ms": 37.8}
+TOOL_CALL name=test_method args={"type_name": "Compressor", "obj_id": "COMPRESSOR-07", "method": "detectAnomaly", "runtime_name": "py-contoso-analytics", "implementation": "def pctOverThreshold(this):\n    readings = this.vibration or []\n    if not readings:\n        return None\n    return sum(v > this.vibrationThreshold for v in readings) / len(readings)\n\ndef detectAnomaly(this, window=24):\n    import numpy as np\n    x = np.as
+TOOL_OUTPUT={"method": "Compressor.detectAnomaly", "kind": "member", "value": {"method": "robust_z", "score": 1.37, "isAnomaly": false}, "elapsed_ms": 2.86, "runtime": "py-contoso-analytics", "conventions": {"first_parameter": "this", "top_level_third_party_imports": []}, "status": "PASS", "runtime_info": {"runtime": "py-contoso-analytics", "contoso_sdk": "0.3.0", "lock_sha256": "7a5432a6fff92406", "declared": ["pip numpy==1.26.4", "pip pandas==2.2.3", "pip scipy==1.14.1", "pip scikit-learn==1.5.2", "pip ruptures==1.1.9", "pip contoso_sdk==0.3.0 file:///opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl"]}, "obj": "Compressor:COMPRESSOR-07", "executed_in": "py-contoso-analytics", "pool": "pool-contoso-runtime", "sandbox_execution_ms": 17, "total_ms": 170.35, "obj_credential_source": "foundry_connection:contoso-backend"}
+--- OUTPUT ---
+CHANGESET  [skill: anomaly-method-standard v1]
+
+Compressor.type  (add)
+  /**
+   * Robust z-score of the latest vibration reading against the trailing window.
+   * Team standard: anomaly-method-standard v1.
+   */
+  detectAnomaly: method(window: int = 24): json py-contoso-analytics-server
+
+Compressor.py  (add)
+def detectAnomaly(this, window=24):
+    import numpy as np
+    x = np.asarray(this.vibration, dtype=float)
+    last = x[-1]
+    ref = x[-window - 1:-1]
+    med = np.median(ref)
+    mad = np.median(np.abs(ref - med))
+    if mad == 0:
+        z = 0.0
+    else:
+        z = 0.6745 * (last - med) / mad
+    return {"method": "robust_z", "score": round(float(z), 2), "isAnomaly": bool(abs(z) > 3.5)}
+
+Tests  (runtime: py-contoso-analytics, pool: pool-contoso-runtime, lock: 7a5432a6fff92406)
+COMPRESSOR-07  PASS  {"method":"robust_z","score":1.37,"isAnomaly":false}  17 ms
+Conventions: first parameter=this, top-level third-party imports=[]
+RESULT=INVOKE_OK

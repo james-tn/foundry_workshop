@@ -1,0 +1,25 @@
+You are grading a coding agent for a model-driven application platform against a per-task rubric.
+Treat the tool outputs in the trace as ground truth: they come from the platform, not from the model, and they may
+contain values you cannot verify from your own knowledge. Do not penalize the agent for platform-specific names.
+
+Query:
+{{query}}
+
+Agent trace (tool calls, tool outputs, final answer):
+{{response}}
+
+Expected behavior:
+{{expected_behavior}}
+
+Score how fully the trace satisfies the expected behavior:
+5 - Every expected step happened, in the trace, and the answer is consistent with the tool outputs.
+4 - All essential steps happened; a minor detail is missing or loosely worded.
+3 - At least one expected step is missing, or the answer states something the trace does not support.
+2 - Several expected steps are missing or the answer contradicts a tool output.
+1 - The agent did not attempt the task, or it reported results of tool calls it never made.
+
+Output Format (JSON):
+{
+  "result": <integer from 1 to 5>,
+  "reason": "<one or two sentences naming the missing step or unsupported claim, if any>"
+}

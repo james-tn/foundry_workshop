@@ -1,0 +1,19 @@
+# Scenario 5 - skill routing: prompts that should and should not load the skill (v1 published). 2026-09-28
+
+PUBLISHED name=anomaly-method-standard version=1 (now default)
+SKILL=anomaly-method-standard
+  default_version=1  latest_version=1
+  description=Use when the user asks to add, write or change an anomaly-detection method on a platform Type. Defines the reliability team's 
+  versions=['1']
+  default body heading: # Anomaly-detection method standard — v1
+PROMPT=What methods does the WindTurbine type have, and which runtime do they claim?
+  TURN_ELAPSED_S=14.81  tools=[describe_type]  SKILL_LOADED=False
+
+PROMPT=Add a method to WindTurbine that returns the mean vibration, and test it on TURBINE-014.
+  TURN_ELAPSED_S=20.44  tools=[describe_type,test_method]  SKILL_LOADED=False
+
+PROMPT=Add an anomaly-detection method to the Compressor type and test it on COMPRESSOR-07.
+  TURN_ELAPSED_S=23.88  tools=[load_skill,describe_type,test_method]  SKILL_LOADED=True
+  COMPRESSOR-07  PASS  {"method":"robust_z","score":1.37,"isAnomaly":false}  22 ms
+
+DELETED name=anomaly-method-standard

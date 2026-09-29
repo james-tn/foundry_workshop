@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What is Contoso's remote work policy?",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso-specific content: False",
+    "test_type": "sharepoint_only",
+    "expected_source": "sharepoint",
+    "explanation": "Forces SharePoint tool usage - answer must contain Contoso-specific policy details"
+  },
+  {
+    "question": "What are Contoso's security protocols for remote employees?",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso-specific content: False",
+    "test_type": "sharepoint_only",
+    "expected_source": "sharepoint",
+    "explanation": "Forces SharePoint tool usage - must retrieve specific security protocols from company policies"
+  },
+  {
+    "question": "How does Contoso classify confidential business documents according to our data governance policy?",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso-specific content: False",
+    "test_type": "sharepoint_only",
+    "expected_source": "sharepoint",
+    "explanation": "Forces SharePoint tool usage - must retrieve data classification from governance policy"
+  },
+  {
+    "question": "What collaboration tools are approved for internal use at Contoso?",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso-specific content: False",
+    "test_type": "sharepoint_only",
+    "expected_source": "sharepoint",
+    "explanation": "Forces SharePoint tool usage - must list specific tools from collaboration standards"
+  },
+  {
+    "question": "According to Microsoft Learn documentation, what is the correct way to set up Azure Active Directory for remote workers? Include reference links.",
+    "response": "To set up Azure Active Directory (Azure AD) for remote workers, you can follow several best practices and configurations outlined in Microsoft Learn documentation. Here's a summary of the key steps to ensure a secure and efficient remote working environment:\n\n1. **Provision User Access and Synchronization**:\n   - Ensure your on-premises Active Directory (AD) user accounts are synchronized with Azure AD. This enables users to authenticate seamlessly when accessing resources remotely. Use Azure AD Connect for synchronization .\n\n2. **Implement Multi-Factor Authentication (MFA)**:\n   - To enhance security, implement MFA. This can be enforced with security defaults or Conditional Access policies based on the risk associated with user sign-ins . MFA will require additional verification methods, providing a higher security level for remote access.\n\n3. **Set Up Remote Access Solutions**:\n   - Depending on your organization\u2019s needs, several remote access options are available:\n     - **Azure VPN Gateway**: For secure, scalable VPN access to your internal resources .\n     - **Azure Application Proxy**: If you require remote access to on-premises applications through web-based services without a full VPN .\n     - **Windows 365**: For environments where employees may use personal or unmanaged devices .\n     - **Remote Desktop Services**: Provide remote connections to desktops and applications .\n\n4. **Configure Self-Service Password Reset (SSPR)**:\n   - Enable SSPR to allow remote users to reset their own passwords securely, reducing reliance on IT support .\n\n5. **Utilize Microsoft Entra ID**:\n   - Connect users\u2019 devices to Microsoft Entra ID to enable single sign-on (SSO) access from anywhere, reinforcing security and management capabilities .\n\n6. **Implement Conditional Access Policies**:\n   - Create Conditional Access policies tailored for remote access to ensure only authorized users can access sensitive applications . This can include policies that vary access based on the user's location, devices, or sign-in risk.\n\n7. **Secure Configuration for Access**:\n   - Ensure your remote access solutions are configured securely. If using VPN, consider split tunneling features and optimizing settings for Microsoft 365 endpoints to balance performance and security .\n\n### Reference Links:\n- [Provide Active Directory Users Access](https://learn.microsoft.com/windows-server/identity/ad-fs/design/provide-your-active-directory-users-access-to-the-applications-and-services-of-other-organizations)\n- [Set Up Your Enterprise for Working Remotely in Azure: FAQ](https://learn.microsoft.com/troubleshoot/entra/entra-id/dir-dmns-obj/faq-set-up-enterprise-work-remotely)\n- [Set Up Your Infrastructure for Hybrid Work with Microsoft 365](https://learn.microsoft.com/microsoft-365/solutions/empower-people-to-work-remotely?view=o365-worldwide)\n- [Create a Sign-In Risk-Based Conditional Access Policy](https://learn.microsoft.com/entra/architecture/deployment-scenario-workforce-guest#create-a-sign-in-risk-based-conditional-access-policy)\n\nThese steps should help you configure Azure Active Directory effectively to accommodate remote workers while maintaining security and accessibility.",
+    "status": "completed",
+    "passed": true,
+    "validation_details": "Microsoft Learn links: True",
+    "test_type": "mcp_only",
+    "expected_source": "mcp",
+    "explanation": "Forces MCP tool usage - must provide Microsoft Learn documentation with links"
+  },
+  {
+    "question": "What does Microsoft Learn say about configuring Azure Security Center monitoring? Please provide the official documentation links.",
+    "response": "Here are some relevant resources from Microsoft Learn about configuring Azure Security Center monitoring:\n\n1. **Security Control: Logging and Monitoring** \n   - This document provides an overview of how to enable audit logging for Azure resources, collect security logs from operating systems, and configure log storage retention. \n   - Key resources within the document include:\n     - [How to collect platform logs and metrics with Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings)\n     - [Understanding logging and different log types in Azure](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/platform-logs-overview)\n   - Link: [Security Control: Logging and Monitoring](https://learn.microsoft.com/security/benchmark/azure/security-control-logging-monitoring)\n\n2. **Data collection in Azure Security Center**\n   - This part discusses how to collect data in Azure Security Center for monitoring security activities and how to use Log Analytics Workspace for querying security logs.\n   - Link: [Data collection in Azure Security Center](https://learn.microsoft.com/en-us/azure/security-center/security-center-enable-data-collection)\n\n3. **Azure Security Center (Defender for Cloud)**\n   - Discusses operational security, including monitoring and configuring security settings for Azure resources.\n   - Link: [Microsoft Defender for Cloud Overview](https://learn.microsoft.com/azure/security-center/security-center-introduction)\n\n4. **Azure Resources Monitoring Best Practices**\n   - This includes guidance on how to implement Azure Monitor with security centers to ensure compliance and logging capabilities.\n   - Link: [Azure Security Management and Monitoring](https://learn.microsoft.com/azure/security/fundamentals/management-monitoring-overview)\n\nThese resources will give you comprehensive guidance on configuring monitoring in Azure Security Center, including practical steps, best practices, and additional links to deeper documentation for specific scenarios.",
+    "status": "completed",
+    "passed": true,
+    "validation_details": "Microsoft Learn links: True",
+    "test_type": "mcp_only",
+    "expected_source": "mcp",
+    "explanation": "Forces MCP tool usage - must access Microsoft Learn for Security Center guidance with links"
+  },
+  {
+    "question": "How do I implement data loss prevention in Microsoft 365 according to Microsoft's official documentation? Include links to the relevant Microsoft Learn articles.",
+    "response": "To implement Data Loss Prevention (DLP) in Microsoft 365, you can refer to the following Microsoft Learn articles that provide comprehensive guidance on planning, deploying, and managing DLP policies.\n\n### 1. Implement Microsoft Purview Data Loss Prevention\nThis training module covers how to leverage Microsoft Purview DLP to protect sensitive data and define actions when DLP rules are violated. Key topics include creating implementation plans and configuring notifications.\n- [Implement Microsoft Purview Data Loss Prevention - Training](https://learn.microsoft.com/training/modules/implement-data-loss-prevention-policies-microsoft-365/)\n\n### 2. SC-400: Implement Data Loss Prevention\nThis learning path includes multiple modules that help you secure Microsoft 365 data using various DLP techniques, including preventing data loss in various Microsoft services.\n- [SC-400: Implement Data Loss Prevention - Learning Path](https://learn.microsoft.com/training/paths/implement-data-loss-prevention/)\n\n### 3. Prevent Data Loss\nThis module specifically details the methods of data loss prevention and how to apply Microsoft DLP technologies effectively.\n- [Prevent Data Loss - Training](https://learn.microsoft.com/training/modules/m365-security-data-loss/)\n\n### 4. Learn about Data Loss Prevention\nThis documentation provides an overview of the DLP lifecycle, the steps necessary for successful implementation, and how to monitor and refine DLP policies.\n- [Learn about Data Loss Prevention](https://learn.microsoft.com/purview/dlp-learn-about-dlp#dlp-lifecycle)\n\n### 5. Create and Deploy Data Loss Prevention Policies\nThis article discusses how to design and implement DLP policies, including defining conditions and actions that should trigger DLP responses.\n- [Create and deploy data loss prevention policies](https://learn.microsoft.com/purview/dlp-create-deploy-policy)\n\nBy reviewing these resources, you will gain a comprehensive understanding of how to set up and manage DLP in your Microsoft 365 environment, covering planning, implementation, and ongoing management of DLP policies according to Microsoft's best practices.",
+    "status": "completed",
+    "passed": true,
+    "validation_details": "Microsoft Learn links: True",
+    "test_type": "mcp_only",
+    "expected_source": "mcp",
+    "explanation": "Forces MCP tool usage - must provide DLP implementation steps with documentation links"
+  },
+  {
+    "question": "What are the steps to configure conditional access policies in Azure AD according to Microsoft Learn? Provide documentation links.",
+    "response": "To configure Conditional Access policies in Azure Active Directory (Azure AD), you can follow these general steps based on the official Microsoft Learn documentation:\n\n### Steps to Set Up Conditional Access Policies\n\n1. **Sign in to the Azure Portal**:\n   - Access the Azure portal at [portal.azure.com](https://portal.azure.com).\n\n2. **Navigate to Azure Active Directory**:\n   - In the left pane, find and select **Azure Active Directory**.\n\n3. **Access Security Settings**:\n   - Within the Azure AD settings, locate **Security** and click on it to expand more options.\n\n4. **Select Conditional Access**:\n   - Under Security, click on **Conditional Access**.\n\n5. **Create a New Policy**:\n   - Click on **New policy** to start creating a new Conditional Access policy.\n\n6. **Name Your Policy**:\n   - Provide a meaningful name for your policy so that it can be easily identified later.\n\n7. **Define Assignments**:\n   - Under **Assignments**, you have several options:\n     - **Users and groups**: Specify the users or groups that the policy will apply to.\n     - **Cloud apps or actions**: Select the applications that the policy will target.\n     - **Conditions**: Set conditions based on user risk, sign-in risk, device platforms, and other parameters.\n\n8. **Set Access Controls**:\n   - Decide what actions should be taken when conditions are met. You can either grant or block access, and you can specify if multi-factor authentication (MFA) is required.\n\n9. **Enable and Save the Policy**:\n   - Set the policy state to **On** to activate it, and then click **Create** to save the policy.\n\n10. **Testing Your Policy**:\n    - After the policy has been created, it is good practice to test it by attempting to access the applications under the defined conditions.\n\n### Documentation Links\nFor more detailed steps and best practices, you can refer to the following links:\n\n- [Configuring Azure Active Directory Conditional Access](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/overview)  .\n- [Add Conditional Access to user flows in Azure Active Directory B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/conditional-access-user-flow)  .\n- [Conditional Access in Microsoft Entra](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-conditional-access-conditions)  .\n\nYou can follow these links for deeper insights into each step and situation regarding Conditional Access policies in Azure AD.",
+    "status": "completed",
+    "passed": true,
+    "validation_details": "Microsoft Learn links: True",
+    "test_type": "mcp_only",
+    "expected_source": "mcp",
+    "explanation": "Forces MCP tool usage - must provide conditional access guidance with Microsoft Learn links"
+  },
+  {
+    "question": "Based on Contoso's remote work policy requirements, how should I implement Azure VPN Gateway? Include links to Microsoft documentation for each step.",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso content: False, Learn links: False",
+    "test_type": "hybrid",
+    "expected_source": "both",
+    "explanation": "Forces both tools - must combine Contoso policy requirements with Azure VPN implementation guidance and links"
+  },
+  {
+    "question": "What Azure services do I need to configure to meet Contoso's data governance requirements? Provide Microsoft Learn links for implementing each service.",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso content: False, Learn links: False",
+    "test_type": "hybrid",
+    "expected_source": "both",
+    "explanation": "Forces both tools - must map Contoso governance policy to specific Azure services with documentation links"
+  },
+  {
+    "question": "How do I configure Microsoft Teams to comply with Contoso's collaboration standards? Include Microsoft documentation links for the setup.",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso content: False, Learn links: False",
+    "test_type": "hybrid",
+    "expected_source": "both",
+    "explanation": "Forces both tools - must combine Contoso collaboration standards with Teams configuration guidance and links"
+  },
+  {
+    "question": "What Azure security services should I implement to align with Contoso's incident response procedures? Provide links to Microsoft Learn for each service.",
+    "response": "Run ended with status: RunStatus.FAILED",
+    "status": "failed",
+    "passed": false,
+    "validation_details": "Contoso content: False, Learn links: False",
+    "test_type": "hybrid",
+    "expected_source": "both",
+    "explanation": "Forces both tools - must connect Contoso security policy to Azure security services with documentation links"
+  }
+]

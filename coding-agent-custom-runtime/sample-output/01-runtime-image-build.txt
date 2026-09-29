@@ -1,0 +1,156 @@
+# Build of the py-contoso-analytics runtime image (ACR run ch3), 2026-09-28
+# Command: az acr build -r <registry> -t contoso-runtime/py-contoso-analytics:1 --no-logs .   (run from sandbox/)
+# Layer download/push progress lines removed and the registry name replaced with <registry>; everything else verbatim.
+# created=2026-09-28T13:53:22Z  finished=2026-09-28T14:19:30Z  (build ~11 min, push ~15 min to a Basic ACR)  digest=sha256:3d62fef274ea40a7eb7d87e739afbea513d31d4870e7cf49e2cbda2182447e3e
+
+2026/09/28 13:53:24 Using acb_vol_f1e90b97-ca6a-43d2-b4af-b9bd67400b6d as the home volume
+2026/09/28 13:53:24 Setting up Docker configuration...
+2026/09/28 13:53:25 Successfully set up Docker configuration
+2026/09/28 13:53:25 Logging in to registry: <registry>.azurecr.io
+2026/09/28 13:53:26 Successfully logged into <registry>.azurecr.io
+2026/09/28 13:53:26 Executing step ID: build. Timeout(sec): 28800, Working directory: '', Network: ''
+2026/09/28 13:53:26 Scanning for dependencies...
+2026/09/28 13:53:26 Successfully scanned dependencies
+2026/09/28 13:53:26 Launching container with name: build
+
+Sending build context to Docker daemon  36.86kB
+
+
+Step 1/9 : FROM mcr.microsoft.com/k8se/services/codeinterpreter:0.9.18-python3.12
+0.9.18-python3.12: Pulling from k8se/services/codeinterpreter
+
+
+
+
+
+
+
+
+Digest: sha256:1954c64a3198ca3f66ad110dd64b0eeefdb939559205a9e0f17e20d00485180f
+Status: Downloaded newer image for mcr.microsoft.com/k8se/services/codeinterpreter:0.9.18-python3.12
+ ---> 002ccab89c2e
+Step 2/9 : USER root
+ ---> Running in ae3b80fa5ee0
+
+
+Removing intermediate container ae3b80fa5ee0
+ ---> 223b55e54728
+Step 3/9 : ARG RUNTIME=py-contoso-analytics
+
+ ---> Running in a73823fd1c1c
+
+
+Removing intermediate container a73823fd1c1c
+ ---> 14a511b28b5f
+Step 4/9 : ENV CONTOSO_RUNTIME=${RUNTIME}
+
+ ---> Running in ff30f4793937
+
+
+Removing intermediate container ff30f4793937
+ ---> 1b1c2a4d6af9
+Step 5/9 : COPY contoso_sdk /opt/contoso/src/contoso_sdk
+
+ ---> d0ab6941b890
+Step 6/9 : RUN python -m pip wheel --no-cache-dir --no-deps -w /opt/contoso/wheels /opt/contoso/src/contoso_sdk
+
+ ---> Running in fd4324d29b93
+Processing /opt/contoso/src/contoso_sdk
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+Building wheels for collected packages: contoso_sdk
+  Building wheel for contoso_sdk (pyproject.toml): started
+  Building wheel for contoso_sdk (pyproject.toml): finished with status 'done'
+  Created wheel for contoso_sdk: filename=contoso_sdk-0.3.0-py3-none-any.whl size=3473 sha256=afa305412b7a0c2bf82b3ab6209da72cb2b7fccdf7510a84e3c3ec7f96171634
+  Stored in directory: /tmp/pip-ephem-wheel-cache-6bj303n7/wheels/d5/06/0e/ac1d8bcc653a6c226a2375a44929dbac80b67cb4c9fee53e7c
+Successfully built contoso_sdk
+
+
+Removing intermediate container fd4324d29b93
+ ---> 1491961f6777
+Step 7/9 : COPY runtime/${RUNTIME}.json /opt/contoso/runtime/${RUNTIME}.json
+
+ ---> 728c760ff587
+Step 8/9 : COPY install_runtime.py /opt/contoso/install_runtime.py
+
+ ---> 0ede0d1751d0
+Step 9/9 : RUN python /opt/contoso/install_runtime.py /opt/contoso/runtime/${RUNTIME}.json
+
+ ---> Running in 9e826216f310
+Resolving py-contoso-analytics (6 declared libraries)
+Processing /opt/contoso/wheels/contoso_sdk-0.3.0-py3-none-any.whl
+Collecting pandas==2.2.3
+Collecting scipy==1.14.1
+Collecting scikit-learn==1.5.2
+Collecting ruptures==1.1.9
+Installing collected packages: scipy, contoso_sdk, scikit-learn, ruptures, pandas
+  Attempting uninstall: scipy
+    Found existing installation: scipy 1.13.1
+    Uninstalling scipy-1.13.1:
+      Successfully uninstalled scipy-1.13.1
+  Attempting uninstall: scikit-learn
+
+    Found existing installation: scikit-learn 1.5.1
+    Uninstalling scikit-learn-1.5.1:
+      Successfully uninstalled scikit-learn-1.5.1
+  Attempting uninstall: pandas
+    Found existing installation: pandas 2.2.2
+    Uninstalling pandas-2.2.2:
+
+      Successfully uninstalled pandas-2.2.2
+[91mERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+gensim 4.3.3 requires scipy<1.14.0,>=1.7.0, but you have scipy 1.14.1 which is incompatible.
+[0mSuccessfully installed contoso_sdk-0.3.0 pandas-2.2.3 ruptures-1.1.9 scikit-learn-1.5.2 scipy-1.14.1
+
+[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+[0maiobotocore 2.12.3 has requirement botocore<1.34.70,>=1.34.41, but you have botocore 1.37.38.
+gensim 4.3.3 has requirement scipy<1.14.0,>=1.7.0, but you have scipy 1.14.1.
+  numpy==1.26.4
+  pandas==2.2.3
+  scipy==1.14.1
+  scikit-learn==1.5.2
+  ruptures==1.1.9
+  contoso_sdk==0.3.0
+Froze 670 packages -> /opt/contoso/runtime/py-contoso-analytics.resolved.json (sha256 7a5432a6fff92406)
+
+Removing intermediate container 9e826216f310
+ ---> e1251bc92038
+
+Successfully built e1251bc92038
+Successfully tagged <registry>.azurecr.io/contoso-runtime/py-contoso-analytics:1
+2026/09/28 14:04:15 Successfully executed container: build
+2026/09/28 14:04:15 Executing step ID: push. Timeout(sec): 3600, Working directory: '', Network: ''
+2026/09/28 14:04:15 Pushing image: <registry>.azurecr.io/contoso-runtime/py-contoso-analytics:1, attempt 1
+The push refers to repository [<registry>.azurecr.io/contoso-runtime/py-contoso-analytics]
+
+
+
+
+1: digest: sha256:3d62fef274ea40a7eb7d87e739afbea513d31d4870e7cf49e2cbda2182447e3e size: 12229
+
+2026/09/28 14:19:27 Step ID: build marked as successful (elapsed time in seconds: 649.284068)
+2026/09/28 14:19:27 Populating digests for step ID: build...
+2026/09/28 14:19:29 Successfully populated digests for step ID: build
+2026/09/28 14:19:29 Step ID: push marked as successful (elapsed time in seconds: 912.413682)
+2026/09/28 14:19:29 The following dependencies were found:
+2026/09/28 14:19:29 
+- image:
+    registry: <registry>.azurecr.io
+    repository: contoso-runtime/py-contoso-analytics
+    tag: "1"
+    digest: sha256:3d62fef274ea40a7eb7d87e739afbea513d31d4870e7cf49e2cbda2182447e3e
+  runtime-dependency:
+    registry: mcr.microsoft.com
+    repository: k8se/services/codeinterpreter
+    tag: 0.9.18-python3.12
+    digest: sha256:1954c64a3198ca3f66ad110dd64b0eeefdb939559205a9e0f17e20d00485180f
+  git: {}
+
+
+
+Run ID: ch3 was successful after 26m6s
+
+

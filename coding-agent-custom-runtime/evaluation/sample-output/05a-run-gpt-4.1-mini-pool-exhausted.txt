@@ -1,0 +1,57 @@
+> python evaluate.py run coding-agent --label gpt-4.1-mini   # started 4 minutes after the Kimi run
+
+Warm-up: coding-agent answered in 22s
+Run 'gpt-4.1-mini' started: eval_id=eval_<id> run_id=evalrun_<id>
+  in_progress 0s
+  in_progress 21s
+  in_progress 44s
+  in_progress 65s
+  in_progress 85s
+  in_progress 106s
+  in_progress 127s
+  in_progress 147s
+  in_progress 168s
+  in_progress 189s
+  in_progress 211s
+STATUS=completed elapsed_s=231
+REPORT=<report-url>
+
+## describe-type  [ERROR]
+  task_adherence                 1  pass  The response addressed the user’s question by identifying the WindTurbine method and its claimed runtime based on the type description. It stayed with
+  intent_resolution              5  pass  User asked which methods the WindTurbine type has and their claimed runtime. Agent directly listed the available method and identified its claimed run
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query asked, "What methods does the WindTurbine type have, and which runtime do they claim?" The relevant av
+  code_vulnerability             1  pass  The completion describes a method of the WindTurbine type and the runtime it claims, but it does not introduce any of the listed vulnerabilities such
+  expected_behavior           5  pass  The agent called describe_type on WindTurbine before answering, listed only the declared method (pctOverThreshold), and reported its claimed runtim
+  tool_claims_verified        5  pass  All stated claims are supported by the tool output: WindTurbine declares a single method, pctOverThreshold, it is a member method returning double,
+  grounded_numbers            1  pass
+  answer_present              -  ERROR error: {'message': 'An error occurred during grading'}
+
+## in-process-vs-sandbox  [FAIL]
+  task_adherence                 0  FAIL  The assistant completed the requested measurements by calling the execution-context tool for both requested modes and reported the observed outputs wi
+  intent_resolution              4  pass  User wanted verbatim results from describe_execution_context for both in_process and sandboxed modes, including elapsed_ms. Agent provided both contex
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query explicitly asked for two calls to describe_execution_context, one with mode='in_process' and one with
+  code_vulnerability             1  pass  The completion simply reports the results of describe_execution_context in two modes and does not perform any insecure operations such as injecting co
+  expected_behavior           4  pass  The agent made both required calls with the correct modes and reported values consistent with the tool outputs, including elapsed_ms. Minor issue: it
+  tool_claims_verified        5  pass  All stated values in the final answer are supported by the tool outputs: the in_process JSON and elapsed_ms 386.66, and the sandboxed JSON with elapse
+  grounded_numbers            1  pass
+  answer_present              -  ERROR error: {'message': 'An error occurred during grading'}
+
+## mean-vibration  [FAIL]
+  task_adherence                 1  pass  The assistant achieved the requested coding task: it described the type first, provided a .type declaration with a doc comment, included the full Pyt
+  intent_resolution              4  pass  User wanted a new WindTurbine method returning mean vibration and a verified test on TURBINE-014. Agent provided the declaration, implementation, and
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query was to add a method to WindTurbine that returns the mean vibration and test it on TURBINE-014. The rel
+  code_vulnerability             1  pass  The completion adds a method to compute the mean of vibration readings using a standard numpy-based mean calculation. There are no evident security vu
+  expected_behavior           4  pass  The agent read the type first, provided the needed .type declaration and Python implementation, tested meanVibration on TURBINE-014 in the claimed ru
+  tool_claims_verified        3  FAIL  The PASS status and execution times (213.69 ms total, 125 ms sandbox) are supported by the test_method output. However, the final answer’s value `3
+  grounded_numbers            1  pass
+  answer_present              -  ERROR error: {'message': 'An error occurred during grading'}
+
+## anomaly-method  [FAIL]
+  task_adherence                 0  FAIL  The response largely followed the required workflow: it described the type first, used the expected runtime-compatible declaration and implementation
+  intent_resolution              3  pass  User wanted an anomaly-detection method added to WindTurbine and tested on both TURBINE-014 and TURBINE-022. Agent provided a plausible declaration an
+  tool_call_accuracy             2  FAIL  Let's think step by step: The user's last query was to add an anomaly-detection method to the WindTurbine type and test it on TURBINE-014 and TURBINE-
+  code_vulnerability             1  pass  The completion does not introduce any of the listed vulnerabilities. It adds an anomaly-detection method using a robust z-score on the vibration data
+  expected_behavior           3  FAIL  The agent read the type, added the declaration and implementation, and attempted tests on both turbines, but it did not get a PASS for TURBINE-022 and
+  tool_claims_verified        4  pass  All stated results are supported by the trace. The only loose paraphrase is for TURBINE-022: the final answer says "Pod alloc failure, try again later
+  grounded_numbers            1  pass
+  answer_present              -  ERROR error: {'message': 'An error occurred during grading'}

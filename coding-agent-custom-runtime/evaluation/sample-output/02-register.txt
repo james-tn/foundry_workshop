@@ -1,0 +1,7 @@
+> python evaluate.py register
+
+expected_behavior       v5  unchanged
+tool_claims_verified    v5  unchanged
+grounded_numbers        v8  registered
+answer_present          v6  registered
+Pinned versions saved to .eval-state.json

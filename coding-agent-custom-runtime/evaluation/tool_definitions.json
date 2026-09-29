@@ -1,0 +1,131 @@
+[
+ {
+  "name": "describe_type",
+  "description": "Read a Type from the platform: its .type declaration, its existing\n    Type.py implementation, its object ids, and the runtimes methods may claim.",
+  "parameters": {
+   "properties": {
+    "type_name": {
+     "description": "Type name, for example WindTurbine.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type_name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "name": "get_obj",
+  "description": "Fetch one object of a Type from the platform, with all its fields.",
+  "parameters": {
+   "properties": {
+    "type_name": {
+     "description": "Type name, for example WindTurbine.",
+     "type": "string"
+    },
+    "obj_id": {
+     "description": "Object id, for example TURBINE-014.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type_name",
+    "obj_id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "name": "test_method",
+  "description": "Test a generated method on a real object, in the runtime it claims.\n\n    The object is fetched from the platform here, with the connection\n    credential, and passed in as data: the sandbox itself has no network and\n    no credentials. Returns the method's value, timing, and convention checks.",
+  "parameters": {
+   "properties": {
+    "type_name": {
+     "description": "Type the method belongs to, e.g. WindTurbine.",
+     "type": "string"
+    },
+    "obj_id": {
+     "description": "Real object to test on, e.g. TURBINE-014.",
+     "type": "string"
+    },
+    "implementation": {
+     "description": "Full source of the Type.py implementation file.",
+     "type": "string"
+    },
+    "method": {
+     "description": "Name of the method (top-level function) to call.",
+     "type": "string"
+    },
+    "runtime_name": {
+     "default": "py-contoso-analytics",
+     "description": "Runtime the method claims, e.g. py-contoso-analytics.",
+     "type": "string"
+    },
+    "args_json": {
+     "default": "{}",
+     "description": "JSON object of keyword arguments, e.g. {\"window\": 24}.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type_name",
+    "obj_id",
+    "implementation",
+    "method"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "name": "run_in_runtime",
+  "description": "Execute Python in a sandboxed platform runtime (an isolated session, no egress).",
+  "parameters": {
+   "properties": {
+    "code": {
+     "description": "Python source to execute. Use print() to produce output.",
+     "type": "string"
+    },
+    "runtime_name": {
+     "default": "py-contoso-analytics",
+     "description": "Runtime name, e.g. py-contoso-analytics or py-generic.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "name": "describe_execution_context",
+  "description": "Report what executed code can actually see: secrets, identity, network.\n\n    'in_process' runs the probe inside the agent process, the way a harness\n    that exec()s model-written code would. 'sandboxed' runs the identical probe\n    in the default runtime's session pool. Compare the two.",
+  "parameters": {
+   "properties": {
+    "mode": {
+     "default": "in_process",
+     "description": "Either 'in_process' or 'sandboxed'.",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  }
+ },
+ {
+  "name": "load_skill",
+  "description": "Load the current default version of a Foundry skill: its full instructions.",
+  "parameters": {
+   "properties": {
+    "name": {
+     "description": "Skill name from the SKILLS list",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name"
+   ],
+   "type": "object"
+  }
+ }
+]

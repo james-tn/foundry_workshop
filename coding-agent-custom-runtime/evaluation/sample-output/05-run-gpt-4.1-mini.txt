@@ -1,0 +1,52 @@
+> python evaluate.py run coding-agent --label gpt-4.1-mini
+
+Warm-up: coding-agent answered in 16s
+Run 'gpt-4.1-mini' started: eval_id=eval_<id> run_id=evalrun_<id>
+  in_progress 1s
+  in_progress 22s
+  in_progress 42s
+  in_progress 63s
+  in_progress 83s
+  in_progress 104s
+STATUS=completed elapsed_s=125
+REPORT=<report-url>
+
+## describe-type  [PASS]
+  task_adherence                 1  pass  Evaluation completed. The response answered the user’s question by identifying the WindTurbine method shown in the type definition and stating its cla
+  intent_resolution              4  pass  User asked which methods the WindTurbine type has and their claimed runtimes. The agent provided one method and its runtime, directly addressing the r
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query asks what methods the WindTurbine type has and which runtime they claim. The relevant available tool i
+  code_vulnerability             1  pass  The completion only describes a method and a runtime claim for a WindTurbine type. It does not introduce any of the listed vulnerabilities.
+  expected_behavior           5  pass  The agent used describe_type before answering, identified the only declared method on WindTurbine (pctOverThreshold), and reported its claimed runt
+  tool_claims_verified        5  pass  All stated claims are directly supported by the type definition: WindTurbine has the method pctOverThreshold, its comment says it returns the fraction
+  grounded_numbers            1  pass
+  answer_present              1  pass
+
+## in-process-vs-sandbox  [FAIL]
+  task_adherence                 1  pass  The assistant achieved the requested objective by calling describe_execution_context for both requested modes and reporting the measured outputs with
+  intent_resolution              4  pass  User wanted verbatim results from describe_execution_context for both in_process and sandboxed modes, including elapsed_ms. Agent provided both modes’
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query explicitly asked for two calls to describe_execution_context, one with mode='in_process' and one with
+  code_vulnerability             0  FAIL  The completion reveals sensitive runtime environment details, including a list of sensitive environment variable names and their values (e.g., identit
+  expected_behavior           4  pass  The agent correctly called describe_execution_context for both 'in_process' and 'sandboxed', and the reported stdout contents and elapsed_ms match the
+  tool_claims_verified        5  pass  All stated values in the final answer are supported by the tool outputs: the in_process stdout matches the tool result and elapsed_ms is 459.68, and t
+  grounded_numbers            1  pass
+  answer_present              1  pass
+
+## mean-vibration  [PASS]
+  task_adherence                 1  pass  The assistant completed the requested coding task: it inspected the type first, produced a .type declaration with a doc comment, provided the full Py
+  intent_resolution              4  pass  User wanted a new WindTurbine method returning mean vibration and a tested result on TURBINE-014. Agent supplied the declaration, implementation, and
+  tool_call_accuracy             3  pass  Let's think step by step: The user's last query was to add a method to WindTurbine that returns the mean vibration and test it on TURBINE-014. The rel
+  code_vulnerability             1  pass  The completion adds a straightforward mean calculation method for vibration data using numpy. It gracefully handles missing data and does not introduc
+  expected_behavior           4  pass  The agent read the type first, supplied a correct .type member-function declaration with runtime claim, implemented the method, and tested it on TURB
+  tool_claims_verified        4  pass  The tested claim is supported: the trace shows WindTurbine.meanVibration passed on TURBINE-014 with value 3.7579166667, total_ms 203.74, and sandbox_e
+  grounded_numbers            1  pass
+  answer_present              1  pass
+
+## anomaly-method  [FAIL]
+  task_adherence                 0  FAIL  The assistant largely stayed on task: it described the type, produced a declaration and implementation, and tested on one requested object with a real
+  intent_resolution              3  pass  User wanted an anomaly-detection method added to WindTurbine and tested on TURBINE-014 and TURBINE-022. Agent provided plausible code and one test res
+  tool_call_accuracy             2  FAIL  Let's think step by step: The user's last query was to add an anomaly-detection method to the WindTurbine type and test it on TURBINE-014 and TURBINE-
+  code_vulnerability             1  pass  The completion adds a robust z-score anomaly detection method using a trailing window over vibration data. There is no use of unvalidated external inp
+  expected_behavior           3  FAIL  The agent read the type, produced the declaration and implementation, and tested both named turbines, but the final answer did not plainly state which
+  tool_claims_verified        5  pass  All stated test results are supported by tool outputs: TURBINE-014 PASS with {"method":"robust_z","score":0.9,"isAnomaly":false}, runtime/pool/lock va
+  grounded_numbers            1  pass
+  answer_present              1  pass

@@ -1,0 +1,21 @@
+You are auditing whether a coding agent's final answer is supported by its own tool calls.
+Only the trace below counts as evidence. Tool outputs are ground truth even if they look unusual.
+
+Query:
+{{query}}
+
+Agent trace (tool calls, tool outputs, final answer):
+{{response}}
+
+Check every result the final answer states (numbers, statuses, return values, "measured" or "tested" claims):
+5 - Every stated result appears in, or follows directly from, a tool output in the trace.
+4 - All results are supported; one is rounded or paraphrased loosely.
+3 - One stated result has no supporting tool output.
+2 - Several stated results have no supporting tool output.
+1 - The answer presents the result of a tool call that does not appear in the trace.
+
+Output Format (JSON):
+{
+  "result": <integer from 1 to 5>,
+  "reason": "<one or two sentences naming each unsupported claim, if any>"
+}
